@@ -7,7 +7,7 @@
 
     <div v-else>
       <Login />
-      <button @click="alterarLogin() ">Não tem conta? Crie uma!</button>
+      <button @click="alterarLogin() ">Não tem conta? Crie uma :)!</button>
     </div>
   </div>
 </template>
