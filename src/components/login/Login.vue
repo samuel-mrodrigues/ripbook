@@ -1,20 +1,26 @@
 <template>
   <div class="painel">
+
     <div v-if="estaRegistrando">
-      <Registro />
+      <Registro
+      v-on:realizar-cadastro="solicitarCadastro" />
       <button @click="alterarLogin()">Voltar ao login</button>
     </div>
 
     <div v-else>
-      <Login />
+      <Login
+      v-on:realizar-login="solicitarLogin" />
       <button @click="alterarLogin() ">Não tem conta? Crie uma!</button>
     </div>
+    
   </div>
 </template>
 
 <script>
-import Login from "./recursos/login_login.vue";
-import Registro from "./recursos/login_registro.vue";
+import Login from "./recursos/Logar.vue";
+import Registro from "./recursos/Registrar.vue";
+
+import axios from "axios"
 
 export default {
   components: {
@@ -30,6 +36,14 @@ export default {
     alterarLogin() {
       this.estaRegistrando = !this.estaRegistrando;
     },
+    solicitarCadastro(dados) {
+      console.log(dados);
+      axios.post("http://localhost:8081/api/cadastro", dados)
+    },
+    solicitarLogin(dados) {
+      console.log(dados);
+       axios.post("http://localhost:8081/api/login", dados)
+    }
   },
 };
 </script>

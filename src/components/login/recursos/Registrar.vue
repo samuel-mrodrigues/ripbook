@@ -55,7 +55,7 @@ export default {
   methods: {
     fazerRegistro() {
       console.log("Iniciando registro...");
-      console.log(this.dadosRegistro);
+      this.$emit("realizar-cadastro", {...this.dadosRegistro})
     },
   },
 };

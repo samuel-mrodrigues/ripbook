@@ -1,5 +1,6 @@
 <template>
   <div class="formulario">
+      
       <Campo pid="email" 
       pnomelabel="Seu e-mail" 
       ptipo="email" 
@@ -41,7 +42,7 @@ export default {
     methods: {
         fazerLogin() {
             console.log("Iniciando login...");
-            console.log(this.dadoslogin);
+            this.$emit("realizar-login", {...this.dadoslogin})
         }
     }
 };
