@@ -38,11 +38,11 @@ export default {
     },
     solicitarCadastro(dados) {
       console.log(dados);
-      axios.post("http://localhost:8081/api/cadastro", dados)
+      axios.post("http://localhost:8081/api/login/cadastro", dados)
     },
     solicitarLogin(dados) {
       console.log(dados);
-       axios.post("http://localhost:8081/api/login", dados)
+       axios.post("http://localhost:8081/api/login/logar", dados)
     }
   },
 };
