@@ -1,18 +1,28 @@
 <template>
   <div class="painel">
-
     <div v-if="estaRegistrando">
       <Registro
-      v-on:realizar-cadastro="solicitarCadastro" />
-      <button @click="alterarLogin()">Voltar ao login</button>
+        :class="{ bloqueado: desativarCampos }"
+        v-on:realizar-cadastro="solicitarCadastro"
+        :pdesativarCampos="desativarCampos"
+      />
+
+      <button @click="alterarLogin()" :disabled="desativarCampos">
+        Voltar ao login
+      </button>
     </div>
 
     <div v-else>
       <Login
-      v-on:realizar-login="solicitarLogin" />
-      <button @click="alterarLogin() ">Não tem conta? Crie uma!</button>
+        :class="{ bloqueado: desativarCampos }"
+        v-on:realizar-login="solicitarLogin"
+        :pdesativarCampos="desativarCampos"
+      />
+
+      <button @click="alterarLogin()" :disabled="desativarCampos">
+        Não tem conta? Crie uma!
+      </button>
     </div>
-    
   </div>
 </template>
 
@@ -20,7 +30,7 @@
 import Login from "./recursos/Logar.vue";
 import Registro from "./recursos/Registrar.vue";
 
-import axios from "axios"
+import axios from "axios";
 
 export default {
   components: {
@@ -29,21 +39,63 @@ export default {
   },
   data() {
     return {
-      estaRegistrando: true,
+      estaRegistrando: false,
+      esperandoResposta: false,
+      desativarCampos: false,
     };
+  },
+  watch: {
+    esperandoResposta() {
+      console.log("Bloqueando campos...");
+      this.desativarCampos = this.esperandoResposta;
+    },
   },
   methods: {
     alterarLogin() {
       this.estaRegistrando = !this.estaRegistrando;
     },
-    solicitarCadastro(dados) {
+    async solicitarCadastro(dados) {
+      this.esperandoResposta = true;
+      console.log("Enviando request de cadastro..");
       console.log(dados);
-      axios.post("http://localhost:8081/api/login/cadastro", dados)
+      let resposta = await axios.post(
+        "http://localhost:8081/api/login/cadastro",
+        dados
+      );
+      console.log(resposta);
+
+      if (resposta.data.status == 0) {
+        console.log("Cadastro aprovado!");
+      } else {
+        setTimeout(() => {
+          this.esperandoResposta = false;
+        }, 1000);
+      }
     },
-    solicitarLogin(dados) {
+    async solicitarLogin(dados) {
+      this.esperandoResposta = true;
+      console.log("Enviando request de login..");
       console.log(dados);
-       axios.post("http://localhost:8081/api/login/logar", dados)
-    }
+      let resposta = await axios.post(
+        "http://localhost:8081/api/login/logar",
+        dados,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(resposta);
+
+      if (resposta.data.status == 0) {
+        console.log("Login aprovado!");
+        setTimeout(() => {
+          this.$router.push("/inicio");
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          this.esperandoResposta = false;
+        }, 1000);
+      }
+    },
   },
 };
 </script>
@@ -51,5 +103,9 @@ export default {
 <style>
 .painel {
   border: 1px solid black;
+}
+
+.bloqueado {
+  opacity: 50%;
 }
 </style>

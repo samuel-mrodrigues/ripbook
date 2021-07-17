@@ -6,6 +6,8 @@
       ptipo="email"
       pplaceholder="xablau@gmail.com"
       v-model="dadoslogin.email"
+      pvalor="samuel@"
+      :pdesativar="pdesativarCampos"
     />
 
     <Campo
@@ -14,6 +16,8 @@
       ptipo="password"
       pplaceholder="*****"
       v-model="dadoslogin.senha"
+      pvalor="123456"
+      :pdesativar="pdesativarCampos"
     />
 
     <Campo
@@ -22,9 +26,10 @@
       pnomelabel="Lembrar login"
       ptipo="checkbox"
       v-model="dadoslogin.lembrarlogin"
+      :pdesativar="pdesativarCampos"
     />
 
-    <button @click="fazerLogin()">Logar</button>
+    <button @click="fazerLogin()" :disabled="pdesativarCampos">Logar</button>
   </div>
 </template>
 
@@ -33,6 +38,12 @@ import Campo from "../componentes/Campo.vue";
 export default {
   components: {
     Campo,
+  },
+  props: {
+    pdesativarCampos: {
+      typeof: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

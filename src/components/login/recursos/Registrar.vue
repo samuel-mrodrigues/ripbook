@@ -6,6 +6,7 @@
       ptipo="text"
       pplaceholder="Xablau"
       v-model="dadosRegistro.nome"
+      :pdesativar="pdesativarCampos"
     />
 
     <Campo
@@ -14,6 +15,7 @@
       ptipo="text"
       pplaceholder="Da Silva"
       v-model="dadosRegistro.sobrenome"
+      :pdesativar="pdesativarCampos"
     />
 
     <Campo
@@ -22,6 +24,7 @@
       ptipo="email"
       pplaceholder="xablau@gmail.com"
       v-model="dadosRegistro.email"
+      :pdesativar="pdesativarCampos"
     />
 
     <Campo
@@ -30,9 +33,10 @@
       ptipo="password"
       pplaceholder="*****"
       v-model="dadosRegistro.senha"
+      :pdesativar="pdesativarCampos"
     />
 
-    <button @click="fazerRegistro()">Registrar</button>
+    <button @click="fazerRegistro()" :disabled="pdesativarCampos">Registrar</button>
   </div>
 </template>
 
@@ -41,6 +45,12 @@ import Campo from "../componentes/Campo.vue";
 export default {
   components: {
     Campo,
+  },
+  props: {
+    pdesativarCampos: {
+      typeof: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

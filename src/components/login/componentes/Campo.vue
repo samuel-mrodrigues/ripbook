@@ -9,14 +9,16 @@
       :placeholder="pplaceholder"
       v-model="data"
       @click="emiteCampo"
+      :disabled="pdesativar"
     />
     <input
       v-else
       :type="tipo"
       :id="id"
-      :placeholder="pplaceholder"
+      :placeholder="placeholder"
       v-model="data"
       @keyup="emiteCampo"
+      :disabled="pdesativar"
     />
   </div>
 </template>
@@ -38,6 +40,13 @@ export default {
       type: String,
       default: "",
     },
+    pvalor: {
+      default: "",
+    },
+    pdesativar: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -45,15 +54,18 @@ export default {
       id: this.pid,
       tipo: this.ptipo,
       placeholder: this.pplaceholder,
-      data: "",
+      data: this.pvalor,
+      desativar: this.pdesativar
     };
+  },
+  mounted() {
+    this.$emit("input", this.data);
   },
   methods: {
     emiteCampo() {
-      if (this.tipo == 'checkbox') {
-          this.data = !this.data
+      if (this.tipo == "checkbox") {
+        this.data = !this.data;
       }
-      console.log(this.data);
       this.$emit("input", this.data);
     },
   },
