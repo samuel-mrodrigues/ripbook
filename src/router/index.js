@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Login from '../components/login/Login.vue'
-import Inicio from "../components/home/Inicio.vue"
+import Inicio from "../components/home/inicio/Inicio.vue"
 
 Vue.use(VueRouter)
 

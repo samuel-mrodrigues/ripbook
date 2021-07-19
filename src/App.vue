@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Pagina Inicial</h1>
     <router-view />
   </div>
 </template>
@@ -11,4 +10,11 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0;
+  padding: 0;
+}
+#app {
+
+}
 </style>
