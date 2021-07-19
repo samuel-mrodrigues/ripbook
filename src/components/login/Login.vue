@@ -52,32 +52,36 @@ export default {
   },
   methods: {
     alterarLogin() {
-      this.estaRegistrando = !this.estaRegistrando;
+      this.setRegistrando(!this.estaRegistrando);
     },
     async solicitarCadastro(dados) {
-      this.esperandoResposta = true;
+      this.setEsperandoResposta(true);
       console.log("Enviando request de cadastro..");
       console.log(dados);
       let resposta = await axios.post(
-        "http://localhost:8081/api/login/cadastro",
+        `${this.$store.state.api.url}/login/cadastro`,
         dados
       );
       console.log(resposta);
 
       if (resposta.data.status == 0) {
         console.log("Cadastro aprovado!");
+        setTimeout(() => {
+          this.setRegistrando(false);
+          this.setEsperandoResposta(false)
+        }, 1000);
       } else {
         setTimeout(() => {
-          this.esperandoResposta = false;
+          this.setEsperandoResposta(false);
         }, 1000);
       }
     },
     async solicitarLogin(dados) {
-      this.esperandoResposta = true;
+      this.setEsperandoResposta(true);
       console.log("Enviando request de login..");
       console.log(dados);
       let resposta = await axios.post(
-        "http://localhost:8081/api/login/logar",
+        `${this.$store.state.api.url}/login/logar`,
         dados,
         {
           withCredentials: true,
@@ -92,9 +96,15 @@ export default {
         }, 1000);
       } else {
         setTimeout(() => {
-          this.esperandoResposta = false;
+          this.setEsperandoResposta(false);
         }, 1000);
       }
+    },
+    setRegistrando(bool) {
+      this.estaRegistrando = bool;
+    },
+    setEsperandoResposta(bool) {
+      this.esperandoResposta = bool;
     },
   },
 };
