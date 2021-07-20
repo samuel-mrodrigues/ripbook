@@ -1,9 +1,8 @@
 <template>
-  <div id="inicio">
+  <div id="inicio" v-if="estaAutorizado">
     <span>Eu sou o inicio geral da pagina</span>
     <Acoes />
     <InicioPerfil />
-    
   </div>
 </template>
 
@@ -18,10 +17,12 @@ import InicioPerfil from "./componentes/inicioperfil/InicioPerfil.vue";
 export default {
   components: {
     InicioPerfil,
-    Acoes
+    Acoes,
   },
   data() {
-    return {};
+    return {
+      estaAutorizado: false,
+    };
   },
   async beforeCreate() {
     console.log("Carregando pagina de inicio..");
@@ -47,7 +48,8 @@ export default {
         this.$router.push("./login");
       } else {
         console.log("Sessão valida!");
-         this.$store.commit("setSessao", sessaoUsuario[1])
+        this.$store.commit("setSessao", sessaoUsuario[1]);
+        this.estaAutorizado = true;
       }
     } else {
       console.log(
