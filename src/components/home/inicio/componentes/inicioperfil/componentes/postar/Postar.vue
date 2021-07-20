@@ -33,7 +33,7 @@ export default {
       console.log("Enviando novo post...");
       console.log(this.comentario);
 
-      let resultado = await axios.post(this.$store.state.api.url + "/post", {
+      let resultado = await axios.post(this.$store.state.api.url + "/posts", {
         comentario: this.comentario
       }, {
         withCredentials: true

@@ -1,7 +1,6 @@
 <template>
   <div class="post">
-      Usuario ID: {{postagemData.usuario_id}}
-      Conteudo do post: {{postagemData.conteudo_post}}
+      
   </div>
 </template>
 
@@ -11,6 +10,13 @@ export default {
     postagemData: {
       type: Object,
     },
+  },
+  beforeMount() {
+
+    console.log("Carregando post com id " + this.postagemData.id_post);
+  },
+  mounted() {
+    console.log("");
   },
 };
 </script>

@@ -32,7 +32,7 @@ export default {
       withCredentials: true,
     });
 
-    this.postagens = posts.data;
+    this.postagens = posts.data
     console.log(this.postagens);
   },
 };
