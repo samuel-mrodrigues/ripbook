@@ -28,12 +28,11 @@ export default {
   async mounted() {
     console.log("Recuperando lista de posts...");
 
-    let posts = await axios.get(this.$store.state.api.url + "/post", {
+    let posts = await axios.get(this.$store.state.api.url + "/posts", {
       withCredentials: true,
     });
 
-    console.log(posts);
-    this.postagens = { ...posts.data };
+    this.postagens = posts.data;
     console.log(this.postagens);
   },
 };
