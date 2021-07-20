@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         api: {
-            url: "http://localhost:8081/api"
+            url: "http://192.168.0.103:8081/api"
         },
         sessaoID: ""
     },
