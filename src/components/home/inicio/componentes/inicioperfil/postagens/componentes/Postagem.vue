@@ -12,7 +12,6 @@ export default {
     },
   },
   beforeMount() {
-
     console.log("Carregando post com id " + this.postagemData.id_post);
   },
   mounted() {

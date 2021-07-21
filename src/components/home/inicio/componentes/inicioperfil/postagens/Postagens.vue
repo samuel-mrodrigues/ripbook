@@ -1,7 +1,6 @@
 <template>
   <div id="postagens">
     <span>Eu sou as postagens :)</span>
-
     <br />
 
     <Postagem
