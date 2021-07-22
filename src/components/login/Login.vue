@@ -31,7 +31,7 @@ import Login from "./recursos/Logar.vue";
 import Registro from "./recursos/Registrar.vue";
 
 import axios from "axios";
-import {getCookie} from "../../utilidades/cookie"
+import { getCookie } from "../../utilidades/cookie";
 
 export default {
   components: {
@@ -69,7 +69,7 @@ export default {
         console.log("Cadastro aprovado!");
         setTimeout(() => {
           this.setRegistrando(false);
-          this.setEsperandoResposta(false)
+          this.setEsperandoResposta(false);
         }, 1000);
       } else {
         setTimeout(() => {
@@ -93,9 +93,9 @@ export default {
       if (resposta.data.status == 0) {
         console.log("Login aprovado!");
         setTimeout(() => {
-          let cookie = getCookie("sessaoID", document.cookie)[1]
+          let cookie = getCookie("sessaoID", document.cookie)[1];
 
-          this.$store.commit("setSessao", cookie)
+          this.$store.commit("setSessao", cookie);
           this.$router.push("/inicio");
         }, 1000);
       } else {
