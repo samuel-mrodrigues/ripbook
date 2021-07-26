@@ -14,7 +14,7 @@
 <script>
 import axios from "axios";
 
-import Postagem from "./componentes/Postagem.vue";
+import Postagem from "./componentes/postagem/Postagem.vue";
 export default {
   components: {
     Postagem,
@@ -23,7 +23,6 @@ export default {
     return {
       postagens: [],
       carregando: true,
-      idInterval: 0,
     };
   },
   beforeMount() {
@@ -31,44 +30,15 @@ export default {
     console.log("Recuperando lista de posts...");
 
     this.carregarPostagens();
-    this.iniciarObserver();
-  },
-  beforeDestroy() {
-    console.log(
-      "Postagens setado para exclusao, cancelando o timer de atualização de postagens..."
-    );
-    clearInterval(this.idInterval);
   },
   methods: {
     async carregarPostagens() {
       let posts = await axios.get(this.$store.state.api.url + "/posts", {
         withCredentials: true,
       });
-
-      if (this.temDiferencaPosts(this.postagens, posts.data.dados.posts)) {
-        console.log("Necessario atualizar as postagens...");
-        this.postagens = posts.data.dados.posts;
-        console.log(this.postagens);
-      }
+      this.postagens = posts.data.dados.posts;
 
       if (this.carregando) this.carregando = false;
-    },
-    iniciarObserver() {
-      this.idInterval = setInterval(() => {
-        console.log("Checando por novas postagens...");
-        this.carregarPostagens();
-      }, 5000);
-    },
-    temDiferencaPosts(postsClient, postsServidor) {
-      if (postsClient.length != postsServidor.length) return true;
-
-      for (let index = 0; index < postsServidor.length; index++) {
-        const postClient = postsClient[index];
-        const postServer = postsServidor[index];
-
-        if (postClient.id_post != postServer.id_post) return true;
-      }
-      return false;
     },
   },
 };

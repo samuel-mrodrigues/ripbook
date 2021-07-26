@@ -7,7 +7,7 @@ export default new Vuex.Store({
     state: {
         api: {
             // url: "http://192.168.1.98:8081/api"
-            url: "http://192.168.0.101:8081/api"
+            url: "http://192.168.0.102:8081/api"
         },
         sessaoID: ""
     },
