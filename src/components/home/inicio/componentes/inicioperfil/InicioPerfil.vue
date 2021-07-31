@@ -2,8 +2,8 @@
   <div id="perfilhome">
     <span>Eu sou o perfil home, apos o inicio</span>
     <Foto />
-    <Postar />
-    <Postagens />
+    <Postar v-on:atualizar-postagens="atualizarPostagens()"/>
+    <Postagens ref="postagens" />
   </div>
 </template>
 
@@ -18,6 +18,12 @@ export default {
     Postar,
     Postagens
   },
+  methods: {
+    atualizarPostagens() {
+      console.log("InicioPerfil: Chamando novas atualização de postagens...");
+      this.$refs.postagens.carregarPostagens()
+    }
+  }
 };
 </script>
 

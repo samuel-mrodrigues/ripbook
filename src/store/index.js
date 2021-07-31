@@ -9,7 +9,8 @@ export default new Vuex.Store({
             // url: "http://192.168.1.98:8081/api"
             url: "http://192.168.0.102:8081/api"
         },
-        sessaoID: ""
+        sessaoID: "",
+        postagens: []
     },
     mutations: {
         setSessao(state, novaSessao) {
@@ -19,7 +20,7 @@ export default new Vuex.Store({
             } else {
                 console.log("Já existe uma sessão, ignorando o set...");
             }
-        }
+        },
     },
     actions: {},
     modules: {}

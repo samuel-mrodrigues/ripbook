@@ -1,12 +1,17 @@
 <template>
   <div>
-      Eu sou o conteudo 
+      {{conteudoData}}
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    conteudoData: {
+      type: String,
+      default: ""
+    }
+  }
 }
 </script>
 

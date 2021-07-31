@@ -1,8 +1,5 @@
 <template>
   <div id="postagens">
-    <span>Eu sou as postagens :)</span>
-    <br />
-
     <Postagem
       v-for="post in postagens"
       v-bind:key="post.id_post"
@@ -39,6 +36,8 @@ export default {
       this.postagens = posts.data.dados.posts;
 
       if (this.carregando) this.carregando = false;
+      console.log(`Lista de posts recebido`);
+      console.log(this.postagens);
     },
   },
 };
@@ -47,7 +46,7 @@ export default {
 <style>
 #postagens {
   border: 2px solid darkgoldenrod;
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  display: flex;
 }
 </style>

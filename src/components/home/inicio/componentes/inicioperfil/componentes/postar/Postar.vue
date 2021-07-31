@@ -17,7 +17,7 @@
 <script>
 import Campo from "./componentes/Campo.vue";
 
-import axios from "axios"
+import axios from "axios";
 
 export default {
   components: {
@@ -33,15 +33,21 @@ export default {
       console.log("Enviando novo post...");
       console.log(this.comentario);
 
-      let resultado = await axios.post(this.$store.state.api.url + "/posts", {
-        comentario: this.comentario
-      }, {
-        withCredentials: true
-      })
-
-      console.log(resultado);
+      let resultado = await axios.post(
+        this.$store.state.api.url + "/posts",
+        {
+          comentario: this.comentario,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (resultado.data.status == 0) {
+        console.log("Postagem realizada!");
+        this.$emit("atualizar-postagens")
+      }
     }
-  }
+  },
 };
 </script>
 
