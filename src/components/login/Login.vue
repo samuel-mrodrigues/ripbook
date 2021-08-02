@@ -1,30 +1,68 @@
 <template>
-  <div class="painel">
-    <div v-if="estaRegistrando">
-      <Registro
-        :class="{ bloqueado: desativarCampos }"
-        v-on:realizar-cadastro="solicitarCadastro"
-        :pdesativarCampos="desativarCampos"
-      />
-
-      <button @click="alterarLogin()" :disabled="desativarCampos">
-        Voltar ao login
-      </button>
+  <div class="inicio">
+    <div class="cabecalho">
+      <h1>Boas-Vindas ao RiPBooK</h1>
     </div>
 
-    <div v-else>
-      <Login
-        :class="{ bloqueado: desativarCampos }"
-        v-on:realizar-login="solicitarLogin"
-        :pdesativarCampos="desativarCampos"
+    <div class="login">
+      <Registro
+        v-if="estaRegistrando"
+        v-on:realizar-cadastro="solicitarCadastro"
+        :desativarCampos="desativarCampos"
+        :ultimosErros="statusLogin"
       />
 
-      <button @click="alterarLogin()" :disabled="desativarCampos">
-        Não tem conta? Crie uma!
-      </button>
+      <Login
+        v-else
+        v-on:realizar-login="solicitarLogin"
+        :desativarCampos="desativarCampos"
+        :ultimosErros="statusLogin"
+      />
+
+      <div class="acoes">
+        <button
+          class="btn btn-dark"
+          @click="alterarLogin()"
+          :disabled="desativarCampos"
+        >
+          {{ estaRegistrando ? "Voltar ao login" : "Novo? Registre-se" }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.inicio {
+  height: 100%;
+  border: 2px solid black;
+  background-image: url("./assets/fundologin.jpg");
+}
+.cabecalho {
+  margin: 0px auto;
+  text-align: center;
+  color: white;
+  margin: 5% 0 10% 0
+}
+.login {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+
+  background-color: rgba(0, 0, 0, 0.836);
+  border-radius: 6px;
+
+  margin: 0px auto;
+}
+
+.acoes {
+  align-self: flex-start;
+}
+
+.bloqueado {
+  opacity: 50%;
+}
+</style>
 
 <script>
 import Login from "./recursos/Logar.vue";
@@ -32,6 +70,7 @@ import Registro from "./recursos/Registrar.vue";
 
 import axios from "axios";
 import { getCookie } from "../../utilidades/cookie";
+import $ from "jquery";
 
 export default {
   components: {
@@ -43,17 +82,28 @@ export default {
       estaRegistrando: false,
       esperandoResposta: false,
       desativarCampos: false,
+      statusLogin: {},
     };
   },
   watch: {
     esperandoResposta() {
-      console.log("Bloqueando campos...");
       this.desativarCampos = this.esperandoResposta;
+
+      if (this.esperandoResposta) {
+        $(".login").fadeTo(500, 0.5);
+      } else {
+        $(".login").fadeTo(500, 1);
+      }
     },
   },
   methods: {
-    alterarLogin() {
-      this.setRegistrando(!this.estaRegistrando);
+    async alterarLogin() {
+      this.desativarCampos = true;
+      $(".login").fadeTo(500, 0, () => {
+        this.setRegistrando(!this.estaRegistrando);
+        this.desativarCampos = false;
+        $(".login").fadeTo(500, 1);
+      });
     },
     async solicitarCadastro(dados) {
       this.setEsperandoResposta(true);
@@ -67,14 +117,11 @@ export default {
 
       if (resposta.data.status == 0) {
         console.log("Cadastro aprovado!");
-        setTimeout(() => {
-          this.setRegistrando(false);
-          this.setEsperandoResposta(false);
-        }, 1000);
+        this.setRegistrando(false);
+        this.setEsperandoResposta(false);
       } else {
-        setTimeout(() => {
-          this.setEsperandoResposta(false);
-        }, 1000);
+        this.setEsperandoResposta(false);
+        this.statusLogin = resposta.data;
       }
     },
     async solicitarLogin(dados) {
@@ -92,16 +139,15 @@ export default {
 
       if (resposta.data.status == 0) {
         console.log("Login aprovado!");
-        setTimeout(() => {
-          let cookie = getCookie("sessaoID", document.cookie)[1];
+        let cookie = getCookie("sessaoID", document.cookie)[1];
 
-          this.$store.commit("setSessao", cookie);
-          this.$router.push("/inicio");
-        }, 1000);
+        this.$store.commit("setSessao", cookie);
+        this.$router.push("/inicio");
       } else {
-        setTimeout(() => {
-          this.setEsperandoResposta(false);
-        }, 1000);
+        console.log("Login recusado");
+
+        this.setEsperandoResposta(false);
+        this.statusLogin = resposta.data;
       }
     },
     setRegistrando(bool) {
@@ -113,13 +159,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.painel {
-  border: 1px solid black;
-}
-
-.bloqueado {
-  opacity: 50%;
-}
-</style>
