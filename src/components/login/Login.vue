@@ -1,7 +1,7 @@
 <template>
   <div class="inicio">
     <div class="cabecalho">
-      <h1>Boas-Vindas ao RiPBooK</h1>
+      <h1>Alguma coisa book</h1>
     </div>
 
     <div class="login">
@@ -36,12 +36,12 @@
 .inicio {
   height: 100%;
   border: 2px solid black;
-  background-image: url("./assets/fundologin.jpg");
+  background-color: #dfdfdf;                                                                                                                                                                                       
 }
 .cabecalho {
   margin: 0px auto;
   text-align: center;
-  color: white;
+  color: black;
   margin: 5% 0 10% 0
 }
 .login {
@@ -53,6 +53,7 @@
   border-radius: 6px;
 
   margin: 0px auto;
+  padding: 25px 25px
 }
 
 .acoes {
@@ -70,7 +71,6 @@ import Registro from "./recursos/Registrar.vue";
 
 import axios from "axios";
 import { getCookie } from "../../utilidades/cookie";
-import $ from "jquery";
 
 export default {
   components: {
@@ -88,22 +88,13 @@ export default {
   watch: {
     esperandoResposta() {
       this.desativarCampos = this.esperandoResposta;
-
-      if (this.esperandoResposta) {
-        $(".login").fadeTo(500, 0.5);
-      } else {
-        $(".login").fadeTo(500, 1);
-      }
     },
   },
   methods: {
     async alterarLogin() {
       this.desativarCampos = true;
-      $(".login").fadeTo(500, 0, () => {
         this.setRegistrando(!this.estaRegistrando);
         this.desativarCampos = false;
-        $(".login").fadeTo(500, 1);
-      });
     },
     async solicitarCadastro(dados) {
       this.setEsperandoResposta(true);

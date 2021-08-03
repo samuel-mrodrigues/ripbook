@@ -14,7 +14,7 @@ export default {};
 }
 
 html {
-  height: 100%;
+  height: 800px;
 }
 body {
   margin: 0;

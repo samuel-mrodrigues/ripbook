@@ -1,6 +1,5 @@
 <template>
   <div id="inicio" v-if="estaAutorizado">
-    <span>Eu sou o inicio geral da pagina</span>
     <Acoes />
     <InicioPerfil />
   </div>
