@@ -1,5 +1,9 @@
 <template>
   <div id="postagens">
+    <div class="info">
+      <p>Postagens recentes</p>
+    </div>
+    
     <Postagem
       v-for="post in postagens"
       v-bind:key="post.id_post"
@@ -7,6 +11,21 @@
     />
   </div>
 </template>
+
+<style scoped>
+#postagens {
+  border: 2px solid rgb(16, 139, 255);
+  width: 100%;
+}
+
+.info {
+  text-align: center;
+}
+
+.info p {
+  font-size: 1.6em;
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -42,11 +61,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#postagens {
-  border: 2px solid darkgoldenrod;
-  width: 100%;
-  display: flex;
-}
-</style>

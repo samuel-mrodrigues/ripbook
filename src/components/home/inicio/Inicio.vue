@@ -5,6 +5,12 @@
   </div>
 </template>
 
+<style>
+#inicio {
+  background-color: white;
+}
+</style>
+
 <script>
 import { getCookie } from "../../../utilidades/cookie";
 import axios from "axios";
@@ -33,8 +39,9 @@ export default {
       console.log("Usuario tem uma sessão! Buscando ela no servidor..");
       console.log(sessaoUsuario);
 
-      let resposta = await axios.get(
+      let resposta = await axios.post(
         `${this.$store.state.api.url}/login/logar/cookie`,
+        {},
         {
           withCredentials: true,
         }
@@ -48,6 +55,7 @@ export default {
       } else {
         console.log("Sessão valida!");
         this.$store.commit("setSessao", sessaoUsuario[1]);
+        this.$store.commit("setDadosBasicos", resposta.data.dados.info_usuario);
         this.estaAutorizado = true;
       }
     } else {
@@ -59,10 +67,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#inicio {
-  border: 2px solid black;
-  margin: 10px;
-}
-</style>

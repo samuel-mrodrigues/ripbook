@@ -8,6 +8,8 @@
       :desativar="desativarCampos"
       v-on:digito="atualizarDados('email', $event)"
       :erroCampo="erros.email"
+      :tamanhoDivisor="70"
+      textoDica="Insira seu endereço de e-mail"
     />
 
     <Campo
@@ -18,6 +20,8 @@
       :desativar="desativarCampos"
       v-on:digito="atualizarDados('senha', $event)"
       :erroCampo="erros.senha"
+      :tamanhoDivisor="60"
+      textoDica="Insira sua senha"
     />
 
     <Campo
@@ -27,6 +31,8 @@
       tipo="checkbox"
       :desativar="desativarCampos"
       v-on:digito="atualizarDados('lembrarlogin', $event)"
+      :mostrarDivisor="false"
+      textoDica="Deseja manter o login apos fechar o site?"
     />
 
     <div class="acoes">

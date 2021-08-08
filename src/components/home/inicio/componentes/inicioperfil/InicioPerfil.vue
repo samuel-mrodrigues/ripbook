@@ -1,34 +1,51 @@
 <template>
-  <div id="perfilhome">
-    <span>Eu sou o perfil home, apos o inicio</span>
+  <div id="inicioperfil">
+
+    <div class="comprimentos">
+      <p>Olá {{ $store.state.dadosBasicos.nome }}</p>
+    </div>
     <Foto />
-    <Postar v-on:atualizar-postagens="atualizarPostagens()"/>
+    <Postar v-on:atualizar-postagens="atualizarPostagens()" />
     <Postagens ref="postagens" />
   </div>
 </template>
 
+<style>
+#inicioperfil {
+  display: flex;
+  flex-direction: column;
+}
+
+.comprimentos {
+
+}
+
+.comprimentos p {
+  padding: 0;
+  margin: 0;
+  font-size: 2.0em;
+  font-weight: 500;
+  text-align: center;
+}
+</style>
+
 <script>
 import Foto from "./componentes/Foto.vue";
 import Postar from "./componentes/postar/Postar.vue";
-import Postagens from "./postagens/Postagens.vue"
+import Postagens from "./postagens/Postagens.vue";
 
 export default {
   components: {
     Foto,
     Postar,
-    Postagens
+    Postagens,
   },
   methods: {
     atualizarPostagens() {
       console.log("InicioPerfil: Chamando novas atualização de postagens...");
-      this.$refs.postagens.carregarPostagens()
-    }
-  }
+      this.$refs.postagens.carregarPostagens();
+    },
+  },
 };
 </script>
 
-<style>
-#perfilhome {
-  border: 2px solid red;
-}
-</style>

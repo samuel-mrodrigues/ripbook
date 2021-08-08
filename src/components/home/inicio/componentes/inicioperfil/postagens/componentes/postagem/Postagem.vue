@@ -33,6 +33,15 @@
   </div>
 </template>
 
+<style>
+.post {
+  border: 1px solid blue;
+  width: 300px;
+  display: inline-block;
+}
+</style>
+
+
 <script>
 import Curtidas from "./componentes/Curtidas.vue";
 import Conteudo from "./componentes/Conteudo.vue";
@@ -142,12 +151,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.post {
-  border: 1px solid blue;
-  width: 300px;
-  position: relative;
-  display: inline-block;
-}
-</style>

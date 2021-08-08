@@ -7,6 +7,12 @@
   </div>
 </template>
 
+<style>
+#acoes {
+  border: 2px solid blue;
+}
+</style>
+
 <script>
 import axios from "axios";
 export default {
@@ -38,8 +44,3 @@ export default {
 };
 </script>
 
-<style>
-#acoes {
-  border: 2px solid blue;
-}
-</style>

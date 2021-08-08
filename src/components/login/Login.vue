@@ -1,7 +1,9 @@
 <template>
   <div class="inicio">
     <div class="cabecalho">
-      <h1>Alguma coisa book</h1>
+      <img src="./assets/hamster.gif" />
+      <h1>RIPBook</h1>
+      <div class="divisor"></div>
     </div>
 
     <div class="login">
@@ -35,25 +37,45 @@
 <style scoped>
 .inicio {
   height: 100%;
-  border: 2px solid black;
-  background-color: #dfdfdf;                                                                                                                                                                                       
+  padding: 15px;
+  background-image: url("./assets/fundologin.jpg");
+  font-family: "FontePadrao1";
+  font-size: 1.2em;
 }
+
 .cabecalho {
   margin: 0px auto;
   text-align: center;
-  color: black;
-  margin: 5% 0 10% 0
+  color: white;
+  margin: 5% 0 5% 0;
 }
+
+.cabecalho h1 {
+  font-size: 4em;
+  font-family: "FonteLogo";
+}
+.cabecalho img {
+  border-radius: 40%;
+  opacity: 90%;
+}
+
+.cabecalho .divisor {
+  width: 20%;
+  border: 2px solid white;
+  margin: 10px auto 20px auto;
+}
+
 .login {
-  width: 600px;
+  width: 630px;
   display: flex;
   flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.829);
 
-  background-color: rgba(0, 0, 0, 0.836);
-  border-radius: 6px;
+  border-top: 1px solid white;
+  border-radius: 4px;
 
   margin: 0px auto;
-  padding: 25px 25px
+  padding: 25px 25px;
 }
 
 .acoes {
@@ -93,8 +115,8 @@ export default {
   methods: {
     async alterarLogin() {
       this.desativarCampos = true;
-        this.setRegistrando(!this.estaRegistrando);
-        this.desativarCampos = false;
+      this.setRegistrando(!this.estaRegistrando);
+      this.desativarCampos = false;
     },
     async solicitarCadastro(dados) {
       this.setEsperandoResposta(true);
@@ -119,6 +141,7 @@ export default {
       this.setEsperandoResposta(true);
       console.log("Enviando request de login..");
       console.log(dados);
+
       let resposta = await axios.post(
         `${this.$store.state.api.url}/login/logar`,
         dados,

@@ -1,28 +1,74 @@
 <template>
   <div id="postar">
-    <span>Quer compartilhar algo?</span>
-    <br />
+    <div class="info">
+      <p>Quer compartilhar algo com o mundo?</p>
+    </div>
 
-    <Campo
-      pid="conteudo"
-      :pmostralabel="false"
-      pplaceholder="Hoje eu consegui...."
-      v-model="comentario"
-    />
+    <div class="caixaPostar">
+      <div>
+        <textarea
+          id="conteudo"
+          type="text"
+          placeholder="Como esta se sentindo?"
+          v-model="comentario"
+          rows="3"
+        />
+      </div>
+    </div>
 
-    <button @click="RIPIT">Publicar</button>
+    <button class="publicar" @click="RIPIT">Publicar</button>
   </div>
 </template>
 
-<script>
-import Campo from "./componentes/Campo.vue";
+<style scoped>
+#postar {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
 
+.info p {
+  padding: 0;
+  margin: 0;
+  font-size: 1.6em;
+  text-align: center;
+}
+
+.caixaPostar {
+  width: 50%;
+  height: 100%;
+  border-radius: 3px;
+  align-self: center;
+}
+
+.caixaPostar div {
+  width: 50%;
+  margin: 0px auto;
+}
+
+.caixaPostar textarea {
+  resize: none;
+  width: 100%;
+}
+
+button {
+  border: none;
+  outline: none;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  align-self: center;
+  margin-top: 5px;
+  background-color: rgba(23, 194, 1, 0.822);
+}
+</style>
+
+<script>
 import axios from "axios";
 
 export default {
-  components: {
-    Campo,
-  },
   data() {
     return {
       comentario: "",
@@ -44,15 +90,9 @@ export default {
       );
       if (resultado.data.status == 0) {
         console.log("Postagem realizada!");
-        this.$emit("atualizar-postagens")
+        this.$emit("atualizar-postagens");
       }
-    }
+    },
   },
 };
 </script>
-
-<style>
-#postar {
-  border: 2px solid darkgreen;
-}
-</style>

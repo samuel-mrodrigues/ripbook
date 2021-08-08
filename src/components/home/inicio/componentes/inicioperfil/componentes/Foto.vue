@@ -11,13 +11,16 @@ export default {};
 <style>
 #foto {
   border: 2px solid yellow;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 130px;
+
+  align-self: center;
 }
 
 .moldura {
   border: 1px solid black;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 </style>
