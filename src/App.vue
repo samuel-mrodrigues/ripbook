@@ -18,9 +18,7 @@ export default {};
   src: url("./assets/Georama/Georama-VariableFont_wdth,wght.ttf");
 }
 
-html {
-  height: 1200px;
-}
+
 body {
   margin: 0;
   padding: 0;

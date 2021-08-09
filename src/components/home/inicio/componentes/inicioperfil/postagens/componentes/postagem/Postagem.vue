@@ -4,40 +4,104 @@
       <span>Carregando...</span>
     </div>
 
-    <div v-else>
-      <div>
-        {{ postagemDados.autor.nome }} postou >>
-        <br />
-        <br />
-        <Conteudo :conteudoData="postagemDados.conteudo_post" />
-        <br />
-        <Curtidas :curtidas="postagemDados.curtidas" />
-        <br />
-        <Comentarios :comentarios="postagemDados.comentarios" />
-        <br />
+    <div class="postdata" v-else>
+      <div class="autor">
+        <p>
+          {{
+            `${postagemDados.autor.nome} ${postagemDados.autor.sobrenome} publicou`
+          }}
+        </p>
+        <div class="divisor" />
       </div>
 
-      <button v-if="postCurtido == false" @click="curtir()">Curtir</button>
-      <button v-else @click="descurtir()">Descurtir</button>
+      <Conteudo :conteudoData="postagemDados.conteudo_post" />
+      <Curtidas :curtidas="postagemDados.curtidas" />
 
-      <div>
-        <input
-          type="text"
-          placeholder="Digite um comentario..."
-          v-model="comentarioAtual"
-        />
-        <button @click="comentar()">Comentar</button>
+      <div class="acoes">
+        <div class="curtir">
+          <button
+            class="curtirBotao"
+            v-if="postCurtido == false"
+            @click="curtir()"
+          >
+            Curtir
+          </button>
+          <button class="descurtirBotao" v-else @click="descurtir()">
+            Descurtir
+          </button>
+        </div>
+
+        <div class="comentar">
+          <input
+            type="text"
+            placeholder="Digite um comentario..."
+            v-model="comentarioAtual"
+          />
+          <button class="comentarBotao" @click="comentar()">Comentar</button>
+        </div>
       </div>
+
+      <Comentarios :comentarios="postagemDados.comentarios" />
     </div>
-    <br />
   </div>
 </template>
 
-<style>
+<style scoped>
 .post {
-  border: 1px solid blue;
-  width: 300px;
+  border-radius: 3px;
+  width: 80%;
   display: inline-block;
+  background-color: rgba(163, 183, 255, 0.836);
+  padding: 10px;
+  margin-bottom: 50px;
+}
+
+.acoes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.acoes button {
+  outline: none;
+  border: none;
+  color: white;
+  font-weight: 500;
+}
+
+.curtirBotao {
+  background-color: green;
+}
+
+.descurtirBotao {
+  background-color: red;
+}
+
+.comentarBotao {
+  background-color: rgb(56, 95, 223);
+}
+
+.curtir {
+  margin-bottom: 10px;
+}
+
+.comentar input {
+  outline: none;
+  border: none;
+  color: black;
+  margin-right: 10px;
+}
+
+p {
+  font-weight: 500;
+}
+
+.divisor {
+  width: 80%;
+  border-bottom: 1px solid rgb(70, 110, 255);
+  margin: 0px auto;
+}
+.autor {
+  text-align: center;
 }
 </style>
 
@@ -71,7 +135,28 @@ export default {
     this.carregando = true;
     this.carregarPost();
   },
+  created() {
+    this.registraHandler();
+  },
   methods: {
+    registraHandler() {
+      console.log(`Escutando modificações no POST ${this.post.id_post}`);
+
+      let atualizarPostagem = (novoUpdate) => {
+        let jsonDados = JSON.parse(novoUpdate.data);
+
+        if (jsonDados.tipo == "atualizarPostagem") {
+          if (jsonDados.postId == this.post.id_post) {
+            console.log(
+              `Nova solicitação de update do post ${jsonDados.postId}`
+            );
+            this.carregarPost();
+          }
+        }
+      };
+
+      this.$store.commit("setHandler", atualizarPostagem);
+    },
     async carregarPost() {
       console.log(`Carregando post ${this.post.id_post}`);
       let postId = this.post.id_post;
@@ -107,7 +192,6 @@ export default {
 
       if (resposta.data.status == 0) {
         this.postCurtido = true;
-        this.carregarPost();
       }
     },
     async descurtir() {
@@ -123,7 +207,6 @@ export default {
 
       if (resposta.data.status == 0) {
         this.postCurtido = false;
-        this.carregarPost();
       }
     },
     async comentar() {
@@ -140,7 +223,7 @@ export default {
       );
 
       if (resposta.data.status == 0) {
-        this.carregarPost();
+        this.comentarioAtual = ""
       }
     },
   },

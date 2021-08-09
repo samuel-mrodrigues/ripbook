@@ -1,12 +1,11 @@
 <template>
   <div id="inicioperfil">
-
     <div class="comprimentos">
       <p>Olá {{ $store.state.dadosBasicos.nome }}</p>
     </div>
     <Foto />
-    <Postar v-on:atualizar-postagens="atualizarPostagens()" />
-    <Postagens ref="postagens" />
+    <Postar/>
+    <Postagens/>
   </div>
 </template>
 
@@ -14,16 +13,15 @@
 #inicioperfil {
   display: flex;
   flex-direction: column;
-}
 
-.comprimentos {
-
+  border-radius: 15px;
+  background-color: rgba(14, 203, 209, 0.904);
 }
 
 .comprimentos p {
   padding: 0;
   margin: 0;
-  font-size: 2.0em;
+  font-size: 2em;
   font-weight: 500;
   text-align: center;
 }
@@ -40,10 +38,15 @@ export default {
     Postar,
     Postagens,
   },
+  data() {
+    return {};
+  },
+  created() {
+    this.iniciarWebSocket();
+  },
   methods: {
-    atualizarPostagens() {
-      console.log("InicioPerfil: Chamando novas atualização de postagens...");
-      this.$refs.postagens.carregarPostagens();
+    iniciarWebSocket() {
+      this.$store.commit("iniciarWS");
     },
   },
 };

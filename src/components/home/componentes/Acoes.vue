@@ -1,15 +1,23 @@
 <template>
   <div id="acoes">
-    Acoes :)
     <button>Inicio</button>
-    <button>Meu perfil</button>
+    <!-- <button>Meu perfil</button> -->
     <button @click="sair">Sair</button>
   </div>
 </template>
 
-<style>
+<style scoped>
 #acoes {
-  border: 2px solid blue;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#acoes button {
+  border: none;
+  outline: 1px solid white;
+  background-color: black;
+  color: white;
 }
 </style>
 

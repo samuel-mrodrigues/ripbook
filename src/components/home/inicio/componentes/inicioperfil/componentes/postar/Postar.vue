@@ -24,9 +24,11 @@
 #postar {
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
   margin-bottom: 10px;
   margin-top: 10px;
+  padding: 10px;
+
+  background-color: #3d81ff;
 }
 
 .info p {
@@ -34,6 +36,8 @@
   margin: 0;
   font-size: 1.6em;
   text-align: center;
+  margin-bottom: 20px;
+  background-color: rgb(121, 150, 231);
 }
 
 .caixaPostar {
@@ -51,6 +55,8 @@
 .caixaPostar textarea {
   resize: none;
   width: 100%;
+  border: 1px solid rgb(27, 109, 216);
+  outline: none;
 }
 
 button {
@@ -90,7 +96,7 @@ export default {
       );
       if (resultado.data.status == 0) {
         console.log("Postagem realizada!");
-        this.$emit("atualizar-postagens");
+        this.comentario = ""
       }
     },
   },

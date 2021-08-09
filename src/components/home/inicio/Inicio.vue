@@ -1,13 +1,45 @@
 <template>
   <div id="inicio" v-if="estaAutorizado">
+    <div class="notificacao" v-if="mostrarNotificacao">
+      <div class="titulo">
+        <p>{{ notificacaoData.titulo }}</p>
+      </div>
+      <div class="conteudo">
+        <p>{{ notificacaoData.conteudo }}</p>
+      </div>
+    </div>
+
     <Acoes />
     <InicioPerfil />
   </div>
 </template>
 
-<style>
+<style scoped>
 #inicio {
-  background-color: white;
+  /* background-color: white; */
+}
+
+.notificacao {
+  position: fixed;
+  background-color: rgb(50, 50, 197);
+  border-radius: 10px;
+  width: 400px;
+  height: 90px;
+
+  bottom: 2%;
+  right: 2%;
+}
+
+.notificacao .titulo {
+  border-bottom: 2px solid rgb(100, 100, 204);
+}
+
+.notificacao .conteudo p {
+  font-weight: 200;
+}
+
+.notificacao p {
+  color: white;
 }
 </style>
 
@@ -27,7 +59,38 @@ export default {
   data() {
     return {
       estaAutorizado: false,
+      mostrarNotificacao: false,
+      notificacaoData: {
+        titulo: "",
+        conteudo: ""
+      },
+      timerId: 0,
     };
+  },
+  created() {
+    this.registrarNotificacoes();
+  },
+  methods: {
+    registrarNotificacoes() {
+      let novaNotificação = (msgNotificar) => {
+        let jsonDados = JSON.parse(msgNotificar.data);
+
+        if (jsonDados.tipo == "notificacao") {
+          console.log(`Nova notificação recebida!`);
+          this.notificacaoData.titulo = jsonDados.titulo;
+          this.notificacaoData.conteudo = jsonDados.conteudo;
+
+          this.mostrarNotificacao = true;
+
+          clearTimeout(this.timerId);
+          this.timerId = setTimeout(() => {
+            this.mostrarNotificacao = false;
+          }, 5000);
+        }
+      };
+
+      this.$store.commit("setHandler", novaNotificação);
+    },
   },
   async beforeCreate() {
     console.log("Carregando pagina de inicio..");
